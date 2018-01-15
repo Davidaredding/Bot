@@ -1,0 +1,29 @@
+{
+  "name": "controlpanel",
+  "version": "1.0.0",
+  "description": "Issues commands to individual robots and reads their status queues.",
+  "main": "index.js",
+  "scripts": {
+    "build" : "babel src -d lib",
+    "start"   : "node ./lib/index.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Davidaredding/Bot.git"
+  },
+  "author": "David Redding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Davidaredding/Bot/issues"
+  },
+  "homepage": "https://github.com/Davidaredding/Bot#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "rimraf": "^2.6.2"
+  }
+}
