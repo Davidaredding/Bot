@@ -4,9 +4,8 @@
   "description": "Issues commands to individual robots and reads their status queues.",
   "main": "index.js",
   "scripts": {
-    "build" : "babel src -d lib",
-    "start"   : "node ./lib/index.js"
-
+    "build": "babel src -d lib",
+    "start": "node ./lib/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,7 @@
   },
   "homepage": "https://github.com/Davidaredding/Bot#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2"
   },
   "devDependencies": {
