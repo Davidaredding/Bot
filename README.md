@@ -1,1 +1,1 @@
-Placeholdel for a little iot project
+Place holder for a little iot project
