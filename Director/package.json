@@ -19,7 +19,8 @@
   "homepage": "https://github.com/Davidaredding/Bot#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mqtt": "^2.15.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -7,15 +7,17 @@ function Robot(robotConfig){
 	this.Config = robotConfig;
 }
 
-
-
 export default (app)=>{
-	app.get('/', (req,res)=>{
 
+	app.get('/', (req,res)=>{
+		console.dir(req.body);
 	});
 
 	app.post('/Register',(req,res)=>{
 		console.dir(req.body);
+		
+			app.client.publish('Robots/Bot1', JSON.stringify(req.body));
+		
 		res.sendStatus(200);
 	});
 };
