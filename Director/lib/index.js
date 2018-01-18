@@ -2,26 +2,34 @@
 
 var _timers = require('timers');
 
-var process = require('process');
-var express = require('express');
+var app = require('express')();
 var bodyParser = require('body-parser');
-var mqtt = require('mqtt');
+var expressWs = require('express-ws');
+var controllers = require("./controllers.js");
 
-var app = express();
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+controllers.default(app);
 
-console.log('connecting to broker...');
-var client = mqtt.connect('mqtt://localhost');
-app.client = client;
-client.on('connect', function () {
-	return console.log('Connected to broker');
+var ws = expressWs(app);
+
+app.get('/', function (req, res) {
+	console.dir(req.body);
 });
 
-require("./controllers.js").default(app);
+app.ws('/', function (ws, req) {
+	console.log('ws-received');
+	ws.on('message', function (msg) {
+		ws.send(msg);
+		console.log(msg);
+	});
+	ws.send(msg);
+});
+
+// console.log('connecting to broker...');
+// var client = mqtt.connect('mqtt://localhost');
+// app.client = client;
+// client.on('connect', ()=>console.log('Connected to broker'));
 
 var port = 8080;
 
