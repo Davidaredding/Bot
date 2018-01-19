@@ -1,37 +1,43 @@
 import { setInterval } from 'timers';
 const app = require('express')();
+const ws = require('express-ws')(app);
 const bodyParser = require('body-parser');
-const expressWs = require('express-ws');
-const controllers = require("./controllers.js")
+const controllers = require("./controllers.js").default(app);
+
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-controllers.default(app);
 
-const ws = expressWs(app);
 
 app.get('/', (req,res)=>{
 	console.dir(req.body);
 	res.end();
 });
 
-app.ws('/', (ws,req)=>{
-	console.log('ws-received');
-	ws.on('message',(msg)=>{
-		ws.send(msg);
-		console.log(msg);
+var clients = [];
+var counter = 0;
+app.ws('/echo', (ws,req)=>{
+	ws.id = ++counter;
+	clients.push(ws);
+
+	ws.on('close',(msg)=>{
+		console.log(`Client ${ws.id} disconnected.`)
 	});
-	ws.send(msg);
+	
+	ws.on('message', (msg)=>{
+		msg = `${ws.id}: ${msg}`
+		clients.forEach((client)=>{
+			if(client.readyState==1)
+				client.send(msg);
+		});
+		console.log(`Broadcasting ${msg} from ${ws.id}`);
+	});
 });
 
 
-// console.log('connecting to broker...');
-// var client = mqtt.connect('mqtt://localhost');
-// app.client = client;
-// client.on('connect', ()=>console.log('Connected to broker'));
 
-var port = 8080
+var port = 8080;
 
-var server = app.listen(port,
+app.listen(port,
 	()=>{console.log(`Director now listening on ${port}`)}
 );
