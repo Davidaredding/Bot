@@ -6,9 +6,11 @@ var app = require('express')();
 var ws = require('express-ws')(app);
 var bodyParser = require('body-parser');
 var controllers = require("./controllers.js").default(app);
+var cors = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 app.get('/', function (req, res) {
 	console.dir(req.body);

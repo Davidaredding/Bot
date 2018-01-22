@@ -3,10 +3,12 @@ const app = require('express')();
 const ws = require('express-ws')(app);
 const bodyParser = require('body-parser');
 const controllers = require("./controllers.js").default(app);
+const cors = require('cors')
 
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 
 
 app.get('/', (req,res)=>{
