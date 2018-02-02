@@ -3,40 +3,69 @@ const ws = require('express-ws')(app);
 const bodyParser = require('body-parser');
 const cors = require('cors')
 
-webserver = function(port = 8080, connCallback){
-    var clients = [];
-    var counter = 0;
+class WebServer {
+    constructor()
+    {
+        this.endpoints = [];
+        this.app = app;
+        this.connected = false;
+    }
 
-    app.ws('/echo', (ws,req)=>{
-        ws.id = ++counter;
-        clients.push(ws);
-    
+    start(port = 8080, corsAddress = 'http://localhost:3000', onConn)
+    {
+        this.port = port;
         app.use(bodyParser.urlencoded({extended:true}));
         app.use(bodyParser.json());
-        app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+        app.use(cors({origin: corsAddress, credentials: true}));
 
-        ws.on('close',(msg)=>{
-            console.log(`Client ${ws.id} disconnected.`)
+        var listener = new Promise(
+            (resolve,reject)=>{ app.listen(this.port,
+                ()=>{
+                    if(onConn)onConn(listener);
+                    console.log(`Director Web now listening on ${port}`);
+                    this.connected = true;
+                    resolve(app);
+                    }
+                );
         });
         
-        ws.on('message', (msg)=>{
-            msg = `${ws.id}: ${msg}`
-            clients.forEach((client)=>{
-                if(client.readyState==1)
-                    client.send(msg);
-            });
-            console.log(`Broadcasting ${msg} from ${ws.id}`);
-        });
-    });
+        return listener;
+    }
 
-    var listener = app.listen(port,
-        ()=>{
-            connCallback?
-                connCallback(listener):
-                console.log(`Director Web now listening on ${port}`)
-            }
-    );
-    return app;
+    createWSEndpoint(address, evt)
+    {
+        console.log(`Adding ws endpoint ${address}`);
+        let endpoint = this.app.ws(address,evt);
+
+        this.endpoints.push(endpoint);
+        return endpoint;
+    }
+    
 }
 
-module.exports.WebServer =  webserver;
+// webserver = function(port = 8080, connCallback){
+//     var clients = [];
+//     var counter = 0;
+
+//     app.ws('/echo', (ws,req)=>{
+//         ws.id = ++counter;
+//         clients.push(ws);
+
+//         ws.on('close',(msg)=>{
+//             console.log(`Client ${ws.id} disconnected.`)
+//         });
+        
+//         ws.on('message', (msg)=>{
+//             msg = `${ws.id}: ${msg}`
+//             clients.forEach((client)=>{
+//                 if(client.readyState==1)
+//                     client.send(msg);
+//             });
+//             console.log(`Broadcasting ${msg} from ${ws.id}`);
+//         });
+//     });
+
+
+// }
+
+module.exports =  WebServer;

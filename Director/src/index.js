@@ -1,55 +1,40 @@
-const net = require('net');
-const app = require('express')();
-const ws = require('express-ws')(app);
-const bodyParser = require('body-parser');
-const cors = require('cors')
+const Sockets 	= require('./socketServer');
+const WebServer = require('./webServer');
+const robot 	= require('./Robot');
+
 const webPort = 8080;
+const statusPort = 9000;
 
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 
-    var clients = [];
-    var counter = 0;
 
-    app.ws('/echo', (ws,req)=>{
-        ws.id = ++counter;
-        clients.push(ws);
-        ws.on('close',(msg)=>{console.log(`Client ${ws.id} disconnected.`)});
-        ws.on('message', (msg)=>{
-            msg = `${ws.id}: ${msg}`
-            clients.forEach((client)=>{
-                if(client.readyState==1)
-                    client.send(msg);
-            });
-            console.log(`Broadcasting ${msg} from ${ws.id}`);
-        });
+const _webServer = new WebServer();
+
+console.log("Starting Webserver");
+_webServer.start().then(()=>{
+	_echoWs = _webServer.createWSEndpoint("/echo",(ws,req)=>{
+		ws.on('close', ()=>{console.log(`Client ${ws.id} disconnected;`)});
+		ws.on('message', ()=>{console.log(`Client ${ws.id} message;`)});
+		ws.on('error', ()=>{console.log(`Client ${ws.id} error!`)});
+		ws.on('open', ()=>{console.log(`Client ${ws.id} Connected!!`)});
 	});
+});
+
+// app.ws('/robot/status', (ws,req)=>{
+	// 	statusClients.push(ws);
+	// 	ws.on('close',()=>{
+	// 		var i = statusClients.indexOf(ws);
+	// 		if(i>-1)
+	// 			statusClients = statusClients.splice(i);
+	// 		console.log(`Client ${ws.id} disconnected`);
+	// 	});
+	// });
 	
-	var statusClients=[];
-	app.ws('/robot/status', (ws,req)=>{
-		statusClients.push(ws);
-		ws.on('close',()=>{
-			var i = statusClients.indexOf(ws);
-			if(i>-1)
-				statusClients = statusClients.splice(i);
-			console.log(`Client ${ws.id} disconnected`);
-		});
-	});
-	
-    var listener = app.listen(webPort,
-        ()=>{console.log(`Director Web now listening on ${webPort}`)}
-    );
+    // var listener = app.listen(webPort,
+    //     ()=>{console.log(`Director Web now listening on ${webPort}`)}
+    // );
 
 
-var status_server = net.createServer(
-	(c)=>{
-		console.log(`Status Socket Connected ${JSON.stringify(c.address())}`);
-		c.on('data',  onReceiveStatus);
-		c.on('close', ()=>{});
-		c.on('error', ()=>{});
-	})
-.listen(9000,()=>{console.log("Director socket, Status on 9000")});
+
 
 
 
