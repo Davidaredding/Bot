@@ -1,7 +1,8 @@
 const app = require('express')();
 const ws = require('express-ws')(app);
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
+const colors= require('colors');
 
 class WebServer {
     constructor()
@@ -22,7 +23,7 @@ class WebServer {
             (resolve,reject)=>{ app.listen(this.port,
                 ()=>{
                     if(onConn)onConn(listener);
-                    console.log(`Director Web now listening on ${port}`);
+                    console.log(`Director Web now listening on ${port}`.bgYellow.black.bold);
                     this.connected = true;
                     resolve(app);
                     }
@@ -34,7 +35,7 @@ class WebServer {
 
     createWSEndpoint(address, evt)
     {
-        console.log(`Adding ws endpoint ${address}`);
+        console.log(`Adding ws endpoint ${address}`.yellow);
         let endpoint = this.app.ws(address,evt);
 
         this.endpoints.push(endpoint);
