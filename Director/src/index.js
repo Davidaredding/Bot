@@ -1,46 +1,47 @@
 const SocketListener 	= require('./socketServer');
 const WebServer = require('./webServer');
-const robot 	= require('./Robot');
+const Robot 	= require('./robot');
 
 const webPort = 8080;
 const statusPort = 9000;
 
+const Robots = [];
 
 console.log('\033c');
 const _webServer = new WebServer();
 console.log("Starting Webserver...".bold.yellow.underline);
-_webServer.start().then(()=>{
-	_echoWs = _webServer.createWSEndpoint("/echo",(ws,req)=>{
-		ws.on('close', ()=>{console.log(`Client ${ws.id} disconnected;`.bgYellow.black)});
-		ws.on('message', ()=>{console.log(`Client ${ws.id} message;`)});
-		ws.on('error', ()=>{console.log(`Client ${ws.id} error!`.bgRed.yellow)});
-		ws.on('open', ()=>{console.log(`Client ${ws.id} Connected!!`.bgWhite.black)});
-	});
-});
+
+_webServer.start();
 
 const _socketServer = new SocketListener();
+_socketServer.on('MyEvent', (con)=>{
+	console.log('Hello'.bgWhite.black);
+	newRobotConnected(con);
+});
+
+_socketServer.on("NEW_STATUS_CONNECTION",newRobotConnected);
+
+function newRobotConnected(connection)
+{
+	let bot = new Robot();
+	connection.on('data',(data)=>{robotDataReceived(data,bot)});
+	Robots.push(bot);
+};
+
+function robotDataReceived(data,robot){
+	robot.updateSettings(JSON.parse(data.toString('utf8')));
+	if(!robot.endpoint)
+		robot.endpoint = _webServer.createWSEndpoint(`/robots/${robot.status.name}`, 
+		(ws,req)=>{
+			console.log(`\tSomeone is listenting to ${robot.status.name}`.cyan.bold);
+			robot.ws = ws;
+		});
+	if(robot.ws)
+		robot.ws.send(JSON.stringify(robot.status));
+}
+
 console.log("Starting Socket Listeners...".bold.underline.cyan)
 _socketServer.start();
-
-
-// app.ws('/robot/status', (ws,req)=>{
-	// 	statusClients.push(ws);
-	// 	ws.on('close',()=>{
-	// 		var i = statusClients.indexOf(ws);
-	// 		if(i>-1)
-	// 			statusClients = statusClients.splice(i);
-	// 		console.log(`Client ${ws.id} disconnected`);
-	// 	});
-	// });
-	
-    // var listener = app.listen(webPort,
-    //     ()=>{console.log(`Director Web now listening on ${webPort}`)}
-    // );
-
-
-
-
-
 
 onReceiveStatus = function(msg)
 {

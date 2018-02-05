@@ -4,12 +4,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const colors= require('colors');
 
+let CLIENT_ID = 0;
 class WebServer {
     constructor()
     {
         this.endpoints = [];
         this.app = app;
         this.connected = false;
+        this.clients = [];
+        this.start.bind(this);
     }
 
     start(port = 8080, corsAddress = 'http://localhost:3000', onConn)
@@ -29,14 +32,29 @@ class WebServer {
                     }
                 );
         });
-        
+        let self = this;
+        listener.then(()=>{
+            self.createWSEndpoint("/echo",(ws,req)=>{
+                console.log(`Client ${ws.id} Connected!!`.bgWhite.black);
+                ws.on('close', ()=>{console.log(`Client ${ws.id} disconnected;`.bgYellow.black)});
+                ws.on('message', (msg)=>{ws.send(msg)});
+                ws.on('error', ()=>{console.log(`Client ${ws.id} error!`.bgRed.yellow)});
+            });
+        })
+
         return listener;
     }
 
     createWSEndpoint(address, evt)
     {
         console.log(`Adding ws endpoint ${address}`.yellow);
-        let endpoint = this.app.ws(address,evt);
+        let endpoint = this.app.ws(address,
+            (ws,req)=>{
+                 ws.id = CLIENT_ID++;
+                 this.clients.push(ws);
+                 ws.on('close', ()=>this.clients.splice(this.clients.indexOf(ws),1));
+                evt(ws,req);
+        });
 
         this.endpoints.push(endpoint);
         return endpoint;
