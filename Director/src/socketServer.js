@@ -1,11 +1,9 @@
 const events = require('events')
 const net = require('net');
 const colors = require('colors');
+const utilities = require('./utilities');
 
-const ON_NEW_STATUS_CONNECTION = "NEW_STATUS_CONNECTION";
-const ON_STATUS_OFFLINE = "ONSTATUSOFFLINE";
-const ON_STATUS_ONLINE = "ONSTATUSONLINE";
-const ON_STATUS_ERROR = "ONSTATUSERROR";
+
 
 class SocketListener extends events.EventEmitter{
     constructor(options){
@@ -35,8 +33,8 @@ class SocketListener extends events.EventEmitter{
     }
 
     _statusServer_listen(){
-        console.log(`Status Server Connected ${JSON.stringify(this.statusServer.address())}`.black.bgCyan);
-        this.emit(ON_STATUS_ONLINE)
+        console.log(`Status Server Connected ${JSON.stringify(this.statusServer.address())}`.bgYellow.black.bold);
+        this.emit(utilities.ON_STATUS_ONLINE)
         this.statusServer.on('connection', this._statusServer_onNewConnection)
         this.statusServer.on('close', this._statusServer_onClose);
         this.statusServer.on('error', ()=>{console.log('Error'.bgRed.Bold.Underline)})
@@ -44,16 +42,16 @@ class SocketListener extends events.EventEmitter{
     
     _statusServer_onNewConnection(connection){
         console.log(`.....New serial connection...`.grey.bold)
-        this.emit(ON_NEW_STATUS_CONNECTION,connection);
+        this.emit(utilities.SOCKET_ON_NEW_STATUS_CONNECTION,connection);
     }
 
     _statusServer_onClose(){
         console.log('Status Server Offline...'.yellow.bold.bgRed);
-        this.emit(ON_STATUS_OFFLINE)
+        this.emit(utilities.SOCKET_ON_STATUS_OFFLINE)
     }
     _statusServer_onError(error){
         console.log('Status server error'.red.bold);
-        this.emit(ON_STATUS_ERROR);
+        this.emit(utilities.SOCKET_ON_STATUS_ERROR);
     }
 }
 module.exports = SocketListener;
