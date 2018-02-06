@@ -14,6 +14,7 @@ class WebServer {
         this.connected = false;
         this.clients = [];
         this.start = this.start.bind(this);
+        this.CLIENT_ID = 0;
     }
 
     start(port = 8080, corsAddress = 'http://localhost:3000', onConn)
@@ -47,12 +48,11 @@ class WebServer {
         console.log(`Adding ws endpoint ${address}`.yellow);
         let endpoint = this.app.ws(address,
             (ws,req)=>{
-                 ws.id = CLIENT_ID++;
+                 ws.id = this.CLIENT_ID++;
                  this.clients.push(ws);
                  ws.on('close', ()=>this.clients.splice(this.clients.indexOf(ws),1));
                 evt(ws,req);
         });
-
         this.endpoints.push(endpoint);
         return endpoint;
     }

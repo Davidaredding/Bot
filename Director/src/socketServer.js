@@ -14,6 +14,13 @@ class SocketListener extends events.EventEmitter{
             error_port: 911
         }, options);
         
+        this.events={
+            SOCKET_ON_NEW_STATUS_CONNECTION  : "SOCKET_ON_NEW_STATUS_CONNECTION",
+            SOCKET_ON_STATUS_OFFLINE         : "SOCKET_ON_STATUS_OFFLINE",
+            SOCKET_ON_STATUS_O               : "SOCKET_ON_STATUS_ONLINE",
+            SOCKET_ON_STATUS_ERROR           : "SOCKET_ON_STATUS_ERROR"
+        }
+
 
         this.statusServer = {};
         this.commServer = {};
@@ -21,12 +28,14 @@ class SocketListener extends events.EventEmitter{
         this._statusServer_listen = this._statusServer_listen.bind(this);
         this._statusServer_onNewConnection = this._statusServer_onNewConnection.bind(this);
         this.emit = this.emit.bind(this);
+     
     }
 
     start(){
         return new Promise((resolve,reject)=>{
             console.log("Initializing status server...".cyan);
-            this.statusServer = net.createServer();
+            this.statusServer = net.createServer(this._statusServer_onNewConnection);
+            
             this.statusServer.listen(this.options.status_port,this._statusServer_listen);
             resolve();
         })
@@ -34,24 +43,22 @@ class SocketListener extends events.EventEmitter{
 
     _statusServer_listen(){
         console.log(`Status Server Connected ${JSON.stringify(this.statusServer.address())}`.bgYellow.black.bold);
-        this.emit(utilities.ON_STATUS_ONLINE)
-        this.statusServer.on('connection', this._statusServer_onNewConnection)
+        this.emit(this.events.SOCKET_ON_STATUS_ONLINE)
         this.statusServer.on('close', this._statusServer_onClose);
         this.statusServer.on('error', ()=>{console.log('Error'.bgRed.Bold.Underline)})
     }
     
     _statusServer_onNewConnection(connection){
-        console.log(`.....New serial connection...`.grey.bold)
-        this.emit(utilities.SOCKET_ON_NEW_STATUS_CONNECTION,connection);
+        this.emit(this.events.SOCKET_ON_NEW_STATUS_CONNECTION,connection);
     }
 
     _statusServer_onClose(){
         console.log('Status Server Offline...'.yellow.bold.bgRed);
-        this.emit(utilities.SOCKET_ON_STATUS_OFFLINE)
+        this.emit(uthis.events.SOCKET__ON_STATUS_OFFLINE)
     }
     _statusServer_onError(error){
         console.log('Status server error'.red.bold);
-        this.emit(utilities.SOCKET_ON_STATUS_ERROR);
+        this.emit(uthis.events.SOCKET__ON_STATUS_ERROR);
     }
 }
 module.exports = SocketListener;

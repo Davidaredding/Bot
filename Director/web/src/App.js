@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RobotStatus } from './Robot';
+import Robot from './Robot';
 import './App.css';
 
 /*
@@ -92,7 +92,7 @@ class App extends Component {
   render() {
     return(
       <div>
-        <RobotStatus />
+        <Robot />
       </div>
     );
   }

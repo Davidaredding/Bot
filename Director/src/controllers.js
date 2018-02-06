@@ -10,7 +10,8 @@ function Controllers(WebServer){
     });
 
     app.get('/Endpoints', (req,res)=>{
-        res.send(JSON.stringify(app._router.stack));
+        res.append('Content-Type', 'application/json');
+        res.send(JSON.stringify(app._router.stack.filter(r=>r.route).map(r=>r.route.path)));
     });
 
 

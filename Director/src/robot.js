@@ -9,6 +9,8 @@ class Robot extends events.EventEmitter{
         super();
         this.status = Robot.defaultProperties();
         Object.assign(this.status,initialSettings);
+
+        this.events = {ROBOT_ON_SETTINGS_CHANGE: "ROBOT_ON_SETTINGS_CHANGED"}
         this.updateSettings = this.updateSettings.bind(this);
     }
 
