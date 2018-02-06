@@ -26,6 +26,7 @@ class Director{
 
     _wireSocketServerEvents(){
         this._socketServer.on(this._socketServer.events.SOCKET_ON_NEW_STATUS_CONNECTION,this._newRobotConnection);
+        this._socketServer.on(this._socketServer.events.SOCKET_ON_REGISTRATION, this._newRobotRegistration);
     }
 
     _wireWebServerEvents(){
@@ -36,7 +37,7 @@ class Director{
 
 
     _robotNewEndpoints(robot){
-        robot.endpoint = {
+        return {
             status:    
                 this._webServer.createWSEndpoint(`/robots/${robot.status.name}`, 
                 (ws,req)=>{
@@ -57,10 +58,24 @@ class Director{
         }
     }
 
+    _newRobotRegistration(connection){
+        connection.on('data',(data)=>{this._newRobotRegistration(data)});
+    }
+
+    _newRobotRegistration(data){
+        //Decode Data
+        //Read registration details (currently Mac adress)
+        //Check if robot with registration details already exists
+        //  if so: reregister (todo)->;
+        //  if not: Create new robot, add to collection, set status as registered
+        //Create robot endpoints
+        //set endpoints to robots dynamic endpoint property
+    }
+
     _newRobotConnection(connection){
         console.log(`.....New status connection...`.grey.bold);
         let bot = new Robot();
-        //this is currently the registration process;  Needs to be more formalized
+        
         connection.on('data',(data)=>{this._robotDataReceived(data,bot)});
         this.robots.push(bot);
     };

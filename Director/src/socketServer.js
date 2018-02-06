@@ -9,6 +9,7 @@ class SocketListener extends events.EventEmitter{
     constructor(options){
         super();
         this.options = Object.assign({},{
+            reg_port: 8888,
             status_port: 9000,
             comm_port: 9001,
             error_port: 911
@@ -17,19 +18,26 @@ class SocketListener extends events.EventEmitter{
         this.events={
             SOCKET_ON_NEW_STATUS_CONNECTION  : "SOCKET_ON_NEW_STATUS_CONNECTION",
             SOCKET_ON_STATUS_OFFLINE         : "SOCKET_ON_STATUS_OFFLINE",
-            SOCKET_ON_STATUS_O               : "SOCKET_ON_STATUS_ONLINE",
-            SOCKET_ON_STATUS_ERROR           : "SOCKET_ON_STATUS_ERROR"
+            SOCKET_ON_STATUS_ONLINE          : "SOCKET_ON_STATUS_ONLINE",
+            SOCKET_ON_STATUS_ERROR           : "SOCKET_ON_STATUS_ERROR",
+            SOCKET_ON_REGISTRATION           : "SOCKET_ON_REGISTRATION"
         }
 
 
         this.statusServer = {};
         this.commServer = {};
         this.errorServer = {};
+        this.regServer = {};
+
         this._statusServer_listen = this._statusServer_listen.bind(this);
         this._statusServer_onNewConnection = this._statusServer_onNewConnection.bind(this);
         
         this._comServer_listen = this._comServer_listen.bind(this);
         this._comServer_onNewConnection = this._comServer_onNewConnection.bind(this);
+
+        this._regServer_newConnection = this._regServer_newConnection.bind(this);
+        this._regServer_listen = this._regServer_listen.bind(this);
+
         this.emit = this.emit.bind(this);
      
     }
@@ -42,9 +50,20 @@ class SocketListener extends events.EventEmitter{
 
             this.comServer = net.createServer(this._comServer_onNewConnection);
             this.comServer.listen(this.options.comm_port,this._comServer_listen);
+
+            this.regServer = new.CreateServer(this._regServer_newConnection);
+            this.regServer.listen(this.options.reg_port, this._regServer_listen);
             resolve();
         })
     }
+    //#region Registration Server
+        _regServer_listen(){}
+        _regServer_newConnection(){
+            this.emit(this.events.)
+        }
+    //#endregion
+
+
     //#region Status Server
     _statusServer_listen(){
         console.log(`\tStatus Server Online ${JSON.stringify(this.statusServer.address())}`.cyan.bold);

@@ -21,6 +21,8 @@ class Robot extends events.EventEmitter{
         this.emit(utilities.ROBOT_ON_SETTINGS_CHANGE, prevStatus,this.status);
     }
 
+    
+
     static defaultProperties(){
         return {
             RSSI:0,

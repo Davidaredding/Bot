@@ -43,6 +43,9 @@ class WebServer {
 
     createWSEndpoint(address, evt)
     {
+        let i = this.endpoints.indexOf(e=>e.address.toUpperCase());
+        if(i>0)
+            return this.endpoints[i].ep;
         console.log(`Adding ws endpoint ${address}`.yellow);
         let endpoint = this.app.ws(address,
             (ws,req)=>{
@@ -51,7 +54,7 @@ class WebServer {
                  ws.on('close', ()=>this.clients.splice(this.clients.indexOf(ws),1));
                 evt(ws,req);
         });
-        this.endpoints.push(endpoint);
+        this.endpoints.push({address: address, ep: endpoint});
         return endpoint;
     }
     
