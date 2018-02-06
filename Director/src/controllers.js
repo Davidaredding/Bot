@@ -3,7 +3,9 @@ function Controllers(WebServer){
     let app = WebServer.app;
 
     app.ws('/echo',
-        (ws,req)=>{ws.send(ws.data);});
+        (ws,req)=>{
+            ws.on('message',(msg)=>ws.send(msg));
+        });
     
     app.get('/', (req,res)=>{
         res.send('Director');

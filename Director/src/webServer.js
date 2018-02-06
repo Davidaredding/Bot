@@ -37,9 +37,7 @@ class WebServer {
                 resolve(app);
                 }
             );
-        
         });
-
         return listener;
     }
 
