@@ -1,6 +1,12 @@
 const Robot = require('./robot');
 const utilities = require('./utilities');
 
+const robot_status ={
+    offline: 0,
+    registered: 1,
+    online : 2
+}
+
 class Director{
     constructor(webServer, socketServer){
         this.robots = [];
@@ -38,11 +44,11 @@ class Director{
 
     _robotNewEndpoints(robot){
         return {
-            status:    
+            status:
                 this._webServer.createWSEndpoint(`/robots/${robot.status.name}`, 
                 (ws,req)=>{
                     console.log(`\t{Address: ${req.connection.remoteAddress}} is listenting to ${robot.status.name}`.yellow.bold);
-                    robot.ws = ws;
+                    robot.director.status_ws = ws; //todo, need to push to all subsrcribers; this will only push to the last subscribed websocket
                 }),
             command:
                 this._webServer.createWSEndpoint(`/robots/${robot.status.name}/command`,
@@ -59,17 +65,31 @@ class Director{
     }
 
     _newRobotRegistration(connection){
-        connection.on('data',(data)=>{this._newRobotRegistration(data)});
+        connection.on('data',(data)=>{this._newRobotRegistration(data,connection)});
     }
 
     _newRobotRegistration(data){
         //Decode Data
-        //Read registration details (currently Mac adress)
+        let bot_reg = JSON.stringify(data);
         //Check if robot with registration details already exists
-        //  if so: reregister (todo)->;
+        if(robots.some(r=>r.mac==bot_reg.mac)){
+            //  if so: reregister (todo)->;
+        }
         //  if not: Create new robot, add to collection, set status as registered
-        //Create robot endpoints
-        //set endpoints to robots dynamic endpoint property
+        var botSettings = 
+            Object.assign({},{
+                director:{
+                    status:0,
+                    endpoints:{}
+                }
+            })
+        
+        let bot = new Robot(botSettings);
+        bot.director = {
+            status: robot_status.registered,
+            endpoints: _robotNewEndpoints(bot)
+        }
+        
     }
 
     _newRobotConnection(connection){
@@ -82,10 +102,10 @@ class Director{
 
     _robotDataReceived(data,robot){
         robot.updateSettings(JSON.parse(data.toString('utf8')));
-        if(!robot.endpoint)
+        if(!robot.director.endpoints)
             this._robotNewEndpoints(robot);
-        if(robot.ws)
-            robot.ws.send(JSON.stringify(robot.status));
+        if(robot.director.endpoints.status)
+            robot.director.status_ws.send(JSON.stringify(robot.status));
     }
 
     _robotSendCommand(ws,msg,robot,command){

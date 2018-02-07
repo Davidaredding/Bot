@@ -51,7 +51,7 @@ class SocketListener extends events.EventEmitter{
             this.comServer = net.createServer(this._comServer_onNewConnection);
             this.comServer.listen(this.options.comm_port,this._comServer_listen);
 
-            this.regServer = new.CreateServer(this._regServer_newConnection);
+            this.regServer = net.createServer(this._regServer_newConnection);
             this.regServer.listen(this.options.reg_port, this._regServer_listen);
             resolve();
         })
@@ -59,7 +59,7 @@ class SocketListener extends events.EventEmitter{
     //#region Registration Server
         _regServer_listen(){}
         _regServer_newConnection(){
-            this.emit(this.events.)
+           
         }
     //#endregion
 

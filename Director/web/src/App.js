@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Robot from './Robot';
+import Robot from './robot/Robot';
 import './App.css';
 
 /*
@@ -91,8 +91,12 @@ class App extends Component {
 
   render() {
     return(
-      <div>
-        <Robot />
+      <div class="flexbox-container">
+        <nav class="sidebar">
+          <Robot />
+        </nav>
+        <div class="main">
+        </div>
       </div>
     );
   }

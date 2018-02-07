@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import './robot.css';
 
-export default class Robot extends Component{
-
+export default class BatteryLevel extends Component{
     render(){
         return(
             <div >
-                
+                --BatteryLevel--
             </div>
         );
     }
