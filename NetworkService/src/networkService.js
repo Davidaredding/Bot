@@ -7,7 +7,7 @@ const robot_status ={
     online : 2
 }
 
-class Director{
+class NetworkService{
     constructor(webServer, socketServer){
         this.robots = [];
         this.players = [];
@@ -120,4 +120,4 @@ class Director{
 
 }
 
-module.exports = Director;
+module.exports = NetworkService;

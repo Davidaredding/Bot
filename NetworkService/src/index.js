@@ -1,8 +1,6 @@
-
-
 const SocketListener 	= require('./socketServer');
 const WebServer 		= require('./webServer');
-const Director			= require('./director');
+const Director			= require('./networkService');
 
 console.log('\033c');
 console.log("Starting Director...".bold.black.bgWhite);
