@@ -20,7 +20,7 @@ void BotWiFi::Connect()
     Serial.print("Connecting to ");
     Serial.print(_ssid);
 
-    WiFi.begin("","");
+    WiFi.begin(_ssid,_password);
     while(WiFi.status() != WL_CONNECTED)
     {
       delay(WIFI_CONNECTION_DELAY);
