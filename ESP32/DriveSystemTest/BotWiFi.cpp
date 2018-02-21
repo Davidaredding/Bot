@@ -17,6 +17,7 @@ void BotWiFi::Connect()
   {
     Serial.begin(115200);
     delay(10);
+  }
     Serial.print("Connecting to ");
     Serial.print(_ssid);
 
@@ -29,5 +30,13 @@ void BotWiFi::Connect()
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.print(WiFi.localIP());
-  }
+}
+
+void BotWiFi::Connect_Async(){
+  xTaskCreate(this->connect_Task,"Wifi Connection", 8000,NULL,1,NULL);
+}
+
+void BotWiFi::connect_Task(void* _this){
+  ((BotWiFi*)_this)->Connect();
+  vTaskSuspend(NULL);
 }

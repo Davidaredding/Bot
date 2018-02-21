@@ -1,13 +1,9 @@
 #include "DriveController.h"
 #include "Motor.h"
 
-Motor* _motor_1;
-Motor* _motor_2;
-
-DriveController::DriveController(Motor* m1, Motor* m2)
+DriveController::DriveController()
 {
-    _motor_1 = m1;
-    _motor_2 = m2;
+    
 }
 
 void DriveController::SetTrim(bool Motor, int16_t speed)
@@ -17,11 +13,13 @@ void DriveController::SetTrim(bool Motor, int16_t speed)
 
 void DriveController::Forward(uint8_t spaces)
 {
-
+    Motor1->Forward(100);
+    Motor2->Forward(100);
 }
 
 void DriveController::Stop(){
-
+    Motor1->Stop();
+    Motor2->Stop();
 }
 void DriveController::TurnLeft()
 {
