@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Robot from './robot/Robot';
+import Terminal from './management/components/Terminal';
 import './App.css';
 
 /*
@@ -91,12 +91,13 @@ class App extends Component {
 
   render() {
     return(
-      <div class="flexbox-container">
-        <nav class="sidebar">
-          <Robot />
-        </nav>
-        <div class="main">
-        </div>
+      <div className="flexbox-container">
+        <Terminal title="System" prompt=":->"/>
+        <Terminal title="Robot 1"/>
+        <Terminal />
+        <Terminal />
+        
+
       </div>
     );
   }

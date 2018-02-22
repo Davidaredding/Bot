@@ -1,38 +1,17 @@
-.app-message {
-    background: rgb(0, 0, 0);
-    border-radius: 8px;
-    border: 1px solid darkgray;
-    padding: 3px 2px 3px 10px;
-    max-width: 100px;
-    margin:3px;
-    color:white;
+html,body{
+    background:linear-gradient(90deg, #0a100d 50px, transparent 1%) center, 
+               linear-gradient(#0a100d 50px, transparent 1%) center, 
+               rgb(156, 139, 38);
+    background-size:51px 51px;
+    height:100%;
+    margin: 0;
+    overflow: hidden;
 }
-
-body{
-    background:rgb(36, 36, 36);
-}
-
 .flexbox-container{
-    display:flex;
-    margin:10px;
+    display: flex;
+    padding:10px;
 }
 
-.sidebar{
-    order: 1;
-    flex:1;
-    flex-basis: auto;
-    min-height: 600px;
-    background: #353535;
-    box-shadow: 5px 5px 5px #141414;
-    min-width:150px;
-    max-width:150px;
-}
 
-.main{
-    order:1;
-    flex:5;
-    margin-left:5px;
-    background:#353535;
-    box-shadow: 5px 5px 5px #141414;
-    min-width:760px;
-}
+
+
