@@ -6,10 +6,12 @@ html,body{
     height:100%;
     margin: 0;
     overflow: hidden;
+    
 }
-.flexbox-container{
-    display: flex;
-    padding:10px;
+.container{
+    display:flex;
+    flex: 1 1 wrap;
+    margin:10px;
 }
 
 

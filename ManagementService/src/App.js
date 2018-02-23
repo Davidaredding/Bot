@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Terminal from './management/components/Terminal';
+import Rssi from './robot/components/Rssi';
 import './App.css';
 
 /*
@@ -88,16 +89,14 @@ class App extends Component {
     this.wsref.sendMessage(message);
   }
 */
+  
 
   render() {
     return(
-      <div className="flexbox-container">
-        <Terminal title="System" prompt=":->"/>
-        <Terminal title="Robot 1"/>
-        <Terminal />
-        <Terminal />
-        
-
+      <div className="container">
+          <Rssi />
+          <Terminal title="System 1"/>
+          
       </div>
     );
   }
