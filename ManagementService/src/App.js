@@ -105,10 +105,11 @@ class App extends Component {
             <hr />
             <Terminal prompt="$Director:"/>
           </Panel> */}
-          
+{/*           
           <div className="panelContainer">
             
             <Panel preTitle="" title="Power" style={{width:64, flexGrow:0}}>
+              
               <div style={{display:"flex", flexDirection:"Row", flex:1, width:64, height:64}}>
                 <Battery voltage="4.1"/>
                 <Battery voltage="4.0"/>
@@ -119,7 +120,7 @@ class App extends Component {
               <Rssi simulate={true}/>
             </Panel>
           </div>
-        
+         */}
         </div>
       </div>
     );

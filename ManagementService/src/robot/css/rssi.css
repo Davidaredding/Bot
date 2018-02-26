@@ -29,16 +29,16 @@
 }
 
 .rssi .bar .active{
-    background: rgba(51, 255, 0, 0.7);
+    background: rgba(51, 255, 0, 1);
     transition: ease-in .3s;
     animation: activePulse 3s infinite;
 }
 
 @keyframes activePulse
 {
-    0% {opacity: .8;}
+    0% {opacity: 1;}
     50% {opacity: .6;}
-    100% {opacity: .8}
+    100% {opacity: 1}
 }
 
 .rssi .val{
