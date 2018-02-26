@@ -1,0 +1,37 @@
+.table{
+    background: #3a310a;
+    border:1px solid  #f5be26;
+    position: relative;
+    min-width:100px;
+    display:flex;
+    margin: 0 1px 0 1px;
+    flex-wrap: nowrap;    
+    font-family: 'VT323', monospace;
+    flex-direction: column;
+}
+
+.table .row{
+    display: flex;
+    background-color: #f5be2648;
+    border: 1px dashed black;
+}
+.table .row .key
+{
+    border-right: 1px dashed black;
+    padding:3px;
+    
+    background-color: #f5be2683
+}
+.table .row div{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding:3px;
+}
+
+.table .row .val{
+    color:rgb(37, 184, 0);
+}
+
+.table header{
+    text-align: left;
+}

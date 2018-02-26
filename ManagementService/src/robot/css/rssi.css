@@ -1,23 +1,14 @@
 .rssi{
-    background: #3a310a;
-    border:1px solid  #f5be26;
     position: relative;
-    width:32px;
     display:flex;
     flex-direction: column;
     flex-wrap: nowrap;    
     font-family: 'VT323', monospace;
-    
+    margin: 0 1px 0 1px;
+    flex-grow: 1;
 }
 
-.rssi header{
-    background-color: #f5be26;
-    font-size:1em;
-    color:#4d3800;
-    text-align: center;
-    
-    min-height:12px;
-}
+
 .rssi .bar{
     flex-grow: 1;
     display:flex;
@@ -34,11 +25,20 @@
     height: 10px;
     flex-grow: 1;
     background: rgba(0,0,0,.3);
+    transition: ease-in .3s;
 }
 
 .rssi .bar .active{
-    background: rgba(37, 184, 0, .3);
+    background: rgba(51, 255, 0, 0.7);
     transition: ease-in .3s;
+    animation: activePulse 3s infinite;
+}
+
+@keyframes activePulse
+{
+    0% {opacity: .8;}
+    50% {opacity: .6;}
+    100% {opacity: .8}
 }
 
 .rssi .val{
@@ -46,4 +46,5 @@
     color:#f5be26;
     text-align: center;
     border-top: 1px dashed #f5be26;
+    overflow:hidden;
 }

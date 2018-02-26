@@ -14,6 +14,10 @@ html,body{
     margin:10px;
 }
 
-
+.panelContainer{
+    display:flex;
+    flex:1;
+    flex-direction: row;
+}
 
 

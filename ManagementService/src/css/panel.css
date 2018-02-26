@@ -1,0 +1,47 @@
+.panel {
+    background: #3a310a;
+    border:1px solid  #f5be26;
+    position: relative;
+    flex-grow: 1;
+    margin: 0 1px 0 1px;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    font-family: 'VT323', monospace;
+    color:#ffda33;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel hr{
+    width:100%;
+    color:black;
+    margin-top:2px;
+    margin-bottom:2px;
+    border-style: none;
+    border-top:1px dashed #ffda33;
+}
+
+.panel header{
+    background-color: #f5be269c;
+    text-align: left;
+    min-height:12px;
+    box-sizing: border-box;
+    border-bottom:1px solid #f5be26;
+    padding: 0px 3px 0px 3px;
+}
+
+.panel header h1{
+    color:#3b2c00;
+    font-size:1.2em;
+    
+    
+    margin:0px 0px 0px 5px;
+}
+.panel header h2{
+    color:#705200;
+    font-size:.75em;
+    margin:0px;
+
+}

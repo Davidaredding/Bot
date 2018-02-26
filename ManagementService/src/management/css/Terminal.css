@@ -1,13 +1,13 @@
 .terminal{
 
     background: #3a310a;
-    border:1px solid  #f5be26;
-    position: relative;
-    flex-grow: inherit;
-    min-width:300px;
+    
+    
+    flex-grow: 1;
+    
 }
 
-.terminal_not_focused{
+/*.terminal_not_focused{
     opacity: .5;
     transition: opacity .15s linear;
 }
@@ -16,21 +16,10 @@
     
     opacity: 1;
     transition: opacity .15s linear;
-}
-
-
-.terminal header{
-    background-color: #f5be26;
-    font-family: 'VT323', monospace;
-    font-size:1em;
-    color:#fde782;
-    text-align: right;
-    padding-right:20px;
-    min-height:12px;
-}
+}*/
 
 .terminal .term{
-    
+    height:100px;
     width: 100%;
     color:#ffda33;
     padding-left:2px;
@@ -41,7 +30,7 @@
     overflow-y: hidden;
     box-sizing: border-box;
     font-family: 'VT323', monospace;
-    height:100px;
+    
 }
 
 .terminal .term .historyItem{

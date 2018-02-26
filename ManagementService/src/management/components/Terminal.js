@@ -81,13 +81,7 @@ export default class Terminal extends Component{
         );
 
         return(
-        <div className=
-            {`item terminal
-             ${this.state.hasFocus?'terminal_focused' : 'terminal_not_focused'}`
-            }
-            onClick={this.onClick}>
-
-          <header> {this.state.title} </header>
+        <div className='terminal' onClick={this.onClick}>
           <div className="term" ref="term">
             {history}
             <form className="input" onSubmit={this.onSubmit}>

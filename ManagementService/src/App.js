@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Terminal from './management/components/Terminal';
 import Rssi from './robot/components/Rssi';
+import Battery from './robot/components/BatteryLevel';
+
+
+import Panel from './app/Panel'
 import './App.css';
+
 
 /*
 // class WS extends Component{
@@ -94,9 +99,28 @@ class App extends Component {
   render() {
     return(
       <div className="container">
-          <Rssi />
-          <Terminal title="System 1"/>
+        <div className="column col1">
+          {/* <Panel preTitle="" title="Terminals" style={{minWidth:500, minHeight:0}}>
+            <Terminal prompt="$:"/>
+            <hr />
+            <Terminal prompt="$Director:"/>
+          </Panel> */}
           
+          <div className="panelContainer">
+            
+            <Panel preTitle="" title="Power" style={{width:64, flexGrow:0}}>
+              <div style={{display:"flex", flexDirection:"Row", flex:1, width:64, height:64}}>
+                <Battery voltage="4.1"/>
+                <Battery voltage="4.0"/>
+              </div>
+            </Panel>
+
+            <Panel preTitle="" title="RSSI" style={{minHeight:0, minWidth:0, flexGrow:0}}>
+              <Rssi simulate={true}/>
+            </Panel>
+          </div>
+        
+        </div>
       </div>
     );
   }
