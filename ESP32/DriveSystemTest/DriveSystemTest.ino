@@ -10,8 +10,8 @@ char* _pass = "Did you touch my ass?";
 
 BotWiFi _botWiFi = BotWiFi(_ap,_pass);
 
-Motor m1 = *new Motor(23,19,18);
-Motor m2 = *new Motor(22,5,17);
+Motor m1 = *new Motor(23,19,18,0);
+Motor m2 = *new Motor(22,5,17,0);
 DriveController controller = *new DriveController();
 
 
@@ -22,7 +22,8 @@ void setup() {
   m2.Initialize();
   controller.Motor1 = &m1;
   controller.Motor2 = &m2;
-  _botWiFi.Connect();
+ _botWiFi.Connect();
+
   
 }
 
@@ -35,15 +36,15 @@ void loop() {
  {
    if(buff[0] == 0x01){
     _s = (float)buff[1];
-    controller.Forward(0);
+    //controller.Forward(0);
     Serial.println("Forward");
    }
    if(buff[0] == 0x02){
-    m1.Forward((float)buff[1]);
+    //m1.Forward((float)buff[1]);
     m2.Forward((float)buff[1]);
    }
    if(buff[0] == 0x03){
-    controller.Stop();
+    //controller.Stop();
     Serial.println("Stop");
    }
    if(buff[0] == 0x04){
